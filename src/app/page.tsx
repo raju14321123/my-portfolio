@@ -24,13 +24,10 @@ function FloatingNav() {
   }, []);
 
   return (
-    <div className={`fixed top-6 right-6 z-40 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-24'}`}>
-      <div className="bg-black/20 backdrop-blur-2xl border border-white/10 p-4 rounded-3xl shadow-2xl flex flex-col items-center gap-3">
-        <div className="flex flex-row gap-3">
-          <a href="/resume.pdf" target="_blank" className="px-6 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-xs uppercase tracking-widest">Resume</a>
-          <a href="mailto:gangadharpandla4477@gmail.com" className="px-6 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-xs uppercase tracking-widest">Contact</a>
-        </div>
-        <a href="/resume.pdf" download="Gangadhar_Resume.pdf" className="text-[10px] text-gray-400 hover:text-white transition-colors underline underline-offset-4 uppercase tracking-widest">Download Resume</a>
+    <div className={`fixed top-4 left-0 right-0 flex justify-center z-40 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-24'}`}>
+      <div className="bg-black/20 backdrop-blur-2xl border border-white/10 p-2 md:p-3 rounded-full shadow-2xl flex flex-row items-center gap-3">
+        <a href="/resume.pdf" target="_blank" className="px-5 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-[10px] uppercase tracking-widest">Resume</a>
+        <a href="mailto:gangadharpandla4477@gmail.com" className="px-5 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-[10px] uppercase tracking-widest">Contact</a>
       </div>
     </div>
   );
@@ -202,7 +199,7 @@ function BusCinematic() {
       else if (progress > end - fadeZone) { opacity = (end - progress) / fadeZone; translateY = -30 * (1 - opacity); }
       else { opacity = 1; translateY = 0; }
     }
-    return { opacity, transform: `translateY(${translateY}px)`, transition: "opacity 0.4s ease-out, transform 0.4s ease-out" };
+    return { opacity, transform: `translateY(${translateY}px)`, transition: "opacity 0.4s ease-out, transform 0.4s ease-out", visibility: opacity > 0 ? "visible" as const : "hidden" as const };
   };
 
   return (
@@ -210,7 +207,7 @@ function BusCinematic() {
          onMouseEnter={() => videoRef.current?.play()}
          onMouseLeave={() => { videoRef.current?.pause(); videoRef.current!.currentTime = 0; setProgress(0); }}>
       <div className="relative w-full md:w-[65%] aspect-video rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black/40 backdrop-blur-xl shrink-0">
-        <video ref={videoRef} src="/bus.mp4" muted playsInline onTimeUpdate={handleTimeUpdate} className="w-full h-full object-cover" />
+        <video ref={videoRef} src="/bus.mp4" muted playsInline autoPlay loop onTimeUpdate={handleTimeUpdate} className="w-full h-full object-cover" />
       </div>
 
       <div className="relative w-full md:w-[45%] h-auto md:h-full flex flex-col justify-center pointer-events-none mt-8 md:-ml-[10%]">
@@ -259,7 +256,7 @@ function MouseCinematic() {
       else if (progress > end - fadeZone) { opacity = (end - progress) / fadeZone; translateY = -30 * (1 - opacity); }
       else { opacity = 1; translateY = 0; }
     }
-    return { opacity, transform: `translateY(${translateY}px)`, transition: "opacity 0.4s ease-out, transform 0.4s ease-out" };
+    return { opacity, transform: `translateY(${translateY}px)`, transition: "opacity 0.4s ease-out, transform 0.4s ease-out", visibility: opacity > 0 ? "visible" as const : "hidden" as const };
   };
 
   return (
@@ -268,7 +265,7 @@ function MouseCinematic() {
            onMouseEnter={() => videoRef.current?.play()}
            onMouseLeave={() => { videoRef.current?.pause(); videoRef.current!.currentTime = 0; setProgress(0); }}>
         <div className="relative w-full md:w-[65%] aspect-video rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black/40 backdrop-blur-xl shrink-0">
-          <video ref={videoRef} src="/msdemo.mp4" muted playsInline onTimeUpdate={handleTimeUpdate} className="w-full h-full object-cover mix-blend-screen" />
+          <video ref={videoRef} src="/msdemo.mp4" muted playsInline autoPlay loop onTimeUpdate={handleTimeUpdate} className="w-full h-full object-cover mix-blend-screen" />
         </div>
         
         <div className="relative w-full md:w-[45%] h-auto md:h-full flex flex-col justify-center pointer-events-none mt-8 md:-ml-[10%]">
@@ -297,7 +294,7 @@ function MouseCinematic() {
         <div className="relative w-full md:w-[75%] aspect-video rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black/40 backdrop-blur-xl"
              onMouseEnter={() => assemblyRef.current?.play()}
              onMouseLeave={() => { assemblyRef.current?.pause(); assemblyRef.current!.currentTime = 0; }}>
-          <video ref={assemblyRef} src="/msassembly.mp4" muted playsInline className="w-full h-full object-cover mix-blend-screen" />
+          <video ref={assemblyRef} src="/msassembly.mp4" muted playsInline autoPlay loop className="w-full h-full object-cover mix-blend-screen" />
           <div className="absolute bottom-4 md:bottom-8 w-full text-center text-white font-bold text-sm md:text-xl drop-shadow-lg p-2">Core Hardware Component Assembly & Sensor Fusion</div>
         </div>
       </div>
@@ -319,7 +316,7 @@ export default function Home() {
       <AIChatBot />
 
       <section id="hero-section" className="w-full pt-[20vh] pb-[10vh] flex flex-col justify-center relative z-10">
-        <main className="z-10 px-6 md:px-16 lg:px-24 w-full flex flex-col items-start">
+        <main className="z-10 px-6 md:px-16 lg:px-24 w-full flex flex-col items-center text-center">
           <h1 className="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] leading-[0.9]">
             GANGADHAR<br/>PANDLA
           </h1>
@@ -328,7 +325,7 @@ export default function Home() {
             <span className="text-[var(--accent-cyan)] text-xs md:text-sm tracking-[0.3em] uppercase font-mono drop-shadow-md">Skills</span>
           </div>
           
-          <div className="mt-8 flex flex-wrap gap-4 max-w-2xl">
+          <div className="mt-8 flex flex-wrap justify-center gap-4 max-w-2xl">
             {techStack.map((tech, index) => (
               <div key={index} className="px-5 py-2 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-gray-300 font-bold text-sm md:text-base tracking-wide shadow-lg cursor-default">{tech}</div>
             ))}
@@ -377,9 +374,9 @@ export default function Home() {
 
       <section id="projects-section" className="w-full flex flex-col items-center justify-center relative z-10 px-4 pt-12 pb-12">
         <h2 className="text-gray-500 text-xs tracking-[0.5em] uppercase font-bold mb-4">PROJECT</h2>
-        <div className="flex gap-6">
-          <button onClick={() => setActiveProject('bus')} className="px-8 py-4 rounded-full border border-white/20 bg-black/50 text-white font-bold backdrop-blur-md hover:border-cyan-500 transition-colors">Bus Tracking</button>
-          <button onClick={() => setActiveProject('mouse')} className="px-8 py-4 rounded-full border border-white/20 bg-black/50 text-white font-bold backdrop-blur-md hover:border-red-500 transition-colors">Future Project Laser Mouse</button>
+        <div className="flex gap-4">
+          <button onClick={() => setActiveProject('bus')} className="px-5 py-2.5 rounded-full border border-white/20 bg-black/50 text-white font-bold backdrop-blur-md hover:border-cyan-500 transition-colors text-sm md:text-base">Bus Tracking</button>
+          <button onClick={() => setActiveProject('mouse')} className="px-5 py-2.5 rounded-full border border-white/20 bg-black/50 text-white font-bold backdrop-blur-md hover:border-red-500 transition-colors text-sm md:text-base">Future Project Laser Mouse</button>
         </div>
       </section>
 
