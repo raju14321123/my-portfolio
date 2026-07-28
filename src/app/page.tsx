@@ -3,13 +3,30 @@
 import React, { useRef, useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
-// 0. FLOATING NAV
+// 0. FLOATING NAV (SIDE-BY-SIDE + SCROLL HIDE/SHOW)
 // ----------------------------------------------------------------------
 function FloatingNav() {
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setIsVisible(false); // Hide on scroll down
+      } else {
+        setIsVisible(true); // Show on scroll up
+      }
+      lastScrollY.current = currentScrollY;
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="fixed top-6 right-6 z-40">
+    <div className={`fixed top-6 right-6 z-40 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-24'}`}>
       <div className="bg-black/20 backdrop-blur-2xl border border-white/10 p-4 rounded-3xl shadow-2xl flex flex-col items-center gap-3">
-        <div className="flex gap-3">
+        <div className="flex flex-row gap-3">
           <a href="/resume.pdf" target="_blank" className="px-6 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-xs uppercase tracking-widest">Resume</a>
           <a href="mailto:gangadharpandla4477@gmail.com" className="px-6 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-xs uppercase tracking-widest">Contact</a>
         </div>
@@ -165,7 +182,7 @@ function BackgroundVideoScrubber() {
 }
 
 // ----------------------------------------------------------------------
-// 2. BUS CINEMATIC
+// 2. BUS CINEMATIC (Responsive Fixes applied)
 // ----------------------------------------------------------------------
 function BusCinematic() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -196,23 +213,23 @@ function BusCinematic() {
         <video ref={videoRef} src="/bus.mp4" muted playsInline onTimeUpdate={handleTimeUpdate} className="w-full h-full object-cover" />
       </div>
 
-      <div className="relative w-full md:w-[45%] h-full flex flex-col justify-center pointer-events-none md:-ml-[10%] mt-8 md:mt-0">
-        <div className="absolute inset-y-0 left-[-10%] right-[-10%] bg-[radial-gradient(ellipse_at_left,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.7)_50%,transparent_80%)] pointer-events-none -z-10" />
-        <div className="relative z-10 w-full pl-6 md:pl-16">
-          <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.05, 0.30)}>
+      <div className="relative w-full md:w-[45%] h-auto md:h-full flex flex-col justify-center pointer-events-none mt-8 md:-ml-[10%]">
+        <div className="absolute inset-y-0 left-[-10%] right-[-10%] bg-[radial-gradient(ellipse_at_left,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.7)_50%,transparent_80%)] pointer-events-none -z-10 hidden md:block" />
+        <div className="relative z-10 w-full pl-6 md:pl-16 min-h-[300px]">
+          <div className="absolute w-full text-left" style={getTextStyle(0.05, 0.30)}>
             <h2 className="text-sm tracking-[0.3em] text-[var(--accent-cyan)] font-bold uppercase mb-4">DRIVER INITIALIZATION</h2>
-            <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Live Telemetry<br/>Uplink</h3>
-            <p className="text-lg text-white font-bold max-w-sm">Driver initiates real-time location sharing, establishing a secure, high-fidelity data stream between the bus and our cloud infrastructure.</p>
+            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Live Telemetry<br/>Uplink</h3>
+            <p className="text-sm md:text-lg text-white font-bold max-w-sm">Driver initiates real-time location sharing, establishing a secure, high-fidelity data stream between the bus and our cloud infrastructure.</p>
           </div>
-          <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.35, 0.65)}>
+          <div className="absolute w-full text-left" style={getTextStyle(0.35, 0.65)}>
             <h2 className="text-sm tracking-[0.3em] text-[var(--accent-blue)] font-bold uppercase mb-4">USER PORTAL</h2>
-            <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Student Access<br/>Portal</h3>
-            <p className="text-lg text-white font-bold max-w-sm">Students log in to a unified dashboard, featuring real-time route visualization powered by OpenStreetMap and Node.js backend services.</p>
+            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Student Access<br/>Portal</h3>
+            <p className="text-sm md:text-lg text-white font-bold max-w-sm">Students log in to a unified dashboard, featuring real-time route visualization powered by OpenStreetMap and Node.js backend services.</p>
           </div>
-          <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.70, 0.95)}>
+          <div className="absolute w-full text-left" style={getTextStyle(0.70, 0.95)}>
             <h2 className="text-sm tracking-[0.3em] text-[var(--accent-cyan)] font-bold uppercase mb-4">SYNC COMPLETE</h2>
-            <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Precision<br/>Sync</h3>
-            <p className="text-lg text-white font-bold max-w-sm">Digital tracking aligns perfectly with physical reality, ensuring students arrive at stops in precise synchronization with bus arrivals.</p>
+            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Precision<br/>Sync</h3>
+            <p className="text-sm md:text-lg text-white font-bold max-w-sm">Digital tracking aligns perfectly with physical reality, ensuring students arrive at stops in precise synchronization with bus arrivals.</p>
           </div>
         </div>
       </div>
@@ -221,7 +238,7 @@ function BusCinematic() {
 }
 
 // ----------------------------------------------------------------------
-// 3. MOUSE CINEMATIC
+// 3. MOUSE CINEMATIC (Responsive Fixes applied)
 // ----------------------------------------------------------------------
 function MouseCinematic() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -254,34 +271,34 @@ function MouseCinematic() {
           <video ref={videoRef} src="/msdemo.mp4" muted playsInline onTimeUpdate={handleTimeUpdate} className="w-full h-full object-cover mix-blend-screen" />
         </div>
         
-        <div className="relative w-full md:w-[45%] h-full flex flex-col justify-center pointer-events-none md:-ml-[10%] mt-8 md:mt-0">
-          <div className="absolute inset-y-0 left-[-10%] right-[-10%] bg-[radial-gradient(ellipse_at_left,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.7)_50%,transparent_80%)] pointer-events-none -z-10" />
-          <div className="relative z-10 w-full pl-6 md:pl-16">
-            <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.05, 0.25)}>
+        <div className="relative w-full md:w-[45%] h-auto md:h-full flex flex-col justify-center pointer-events-none mt-8 md:-ml-[10%]">
+          <div className="absolute inset-y-0 left-[-10%] right-[-10%] bg-[radial-gradient(ellipse_at_left,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.7)_50%,transparent_80%)] pointer-events-none -z-10 hidden md:block" />
+          <div className="relative z-10 w-full pl-6 md:pl-16 min-h-[300px]">
+            <div className="absolute w-full text-left" style={getTextStyle(0.05, 0.25)}>
               <h2 className="text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-4">SPATIAL TARGETING</h2>
-              <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Presentation<br/>Mode</h3>
-              <p className="text-xl text-white font-bold max-w-sm">Seamless toggle mode designed for high-precision, lag-free optical laser pointing in academic seminars.</p>
+              <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Presentation<br/>Mode</h3>
+              <p className="text-sm md:text-xl text-white font-bold max-w-sm">Seamless toggle mode designed for high-precision, lag-free optical laser pointing in academic seminars.</p>
             </div>
-            <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.30, 0.50)}>
+            <div className="absolute w-full text-left" style={getTextStyle(0.30, 0.50)}>
               <h2 className="text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-4">STATE SWITCH</h2>
-              <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Tactile<br/>Activation</h3>
-              <p className="text-xl text-white font-bold max-w-sm">A hardware-level toggle instantly transforms the pointing laser into a full 3D air-mouse interface.</p>
+              <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Tactile<br/>Activation</h3>
+              <p className="text-sm md:text-xl text-white font-bold max-w-sm">A hardware-level toggle instantly transforms the pointing laser into a full 3D air-mouse interface.</p>
             </div>
-            <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.55, 0.75)}>
+            <div className="absolute w-full text-left" style={getTextStyle(0.55, 0.75)}>
               <h2 className="text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-4">ZERO-SURFACE INPUT</h2>
-              <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">True Air<br/>Mouse</h3>
-              <p className="text-xl text-white font-bold max-w-sm">Utilizes IMU sensor fusion to translate spatial hand gestures into zero-latency digital navigation, no surface required.</p>
+              <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">True Air<br/>Mouse</h3>
+              <p className="text-sm md:text-xl text-white font-bold max-w-sm">Utilizes IMU sensor fusion to translate spatial hand gestures into zero-latency digital navigation, no surface required.</p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="w-full max-w-[1400px] mx-auto px-4 md:px-8 py-12 flex items-center justify-center">
-        <div className="relative w-[75%] aspect-video rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black/40 backdrop-blur-xl"
+        <div className="relative w-full md:w-[75%] aspect-video rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black/40 backdrop-blur-xl"
              onMouseEnter={() => assemblyRef.current?.play()}
              onMouseLeave={() => { assemblyRef.current?.pause(); assemblyRef.current!.currentTime = 0; }}>
           <video ref={assemblyRef} src="/msassembly.mp4" muted playsInline className="w-full h-full object-cover mix-blend-screen" />
-          <div className="absolute bottom-8 w-full text-center text-white font-bold text-xl drop-shadow-lg">Core Hardware Component Assembly & Sensor Fusion</div>
+          <div className="absolute bottom-4 md:bottom-8 w-full text-center text-white font-bold text-sm md:text-xl drop-shadow-lg p-2">Core Hardware Component Assembly & Sensor Fusion</div>
         </div>
       </div>
     </>
@@ -326,26 +343,29 @@ export default function Home() {
             <h2 className="text-[var(--accent-cyan)] text-xs tracking-[0.5em] uppercase font-bold mb-12 text-center drop-shadow-md">Education & Academic Path</h2>
             <div className="relative ml-2 md:ml-4 space-y-12">
               <div className="absolute left-[7px] top-2 bottom-4 w-[2px] bg-gradient-to-b from-[var(--accent-cyan)] via-[var(--accent-blue)] to-transparent opacity-60" />
+              
               <div className="relative pl-10 transition-all duration-300 hover:translate-x-2 cursor-default group/item">
                 <div className="absolute left-0 top-1 w-4 h-4 rounded-full bg-black border-2 border-[var(--accent-cyan)] shadow-[0_0_15px_var(--accent-cyan)] transition-colors duration-300 group-hover/item:bg-[var(--accent-cyan)]" />
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-2">
-                  <h4 className="text-xl md:text-2xl font-bold text-white transition-colors duration-300 group-hover/item:text-[var(--accent-cyan)]">B.Tech - Electronics & Communication Engineering (ECE)</h4>
+                  <h4 className="text-lg md:text-2xl font-bold text-white transition-colors duration-300 group-hover/item:text-[var(--accent-cyan)]">B.Tech - Electronics & Communication Engineering (ECE)</h4>
                   <span className="inline-flex w-max items-center px-3 py-1 rounded-full bg-[var(--accent-cyan)]/10 border border-[var(--accent-cyan)]/30 text-[var(--accent-cyan)] text-xs font-mono font-bold tracking-widest shadow-[0_0_10px_rgba(0,240,255,0.1)]">4TH YEAR</span>
                 </div>
                 <p className="text-gray-400 font-mono text-sm leading-relaxed">Sri Venkateswara Institute of Technology, Hampapuram</p>
               </div>
+
               <div className="relative pl-10 transition-all duration-300 hover:translate-x-2 cursor-default group/item">
                 <div className="absolute left-0 top-1 w-4 h-4 rounded-full bg-black border-2 border-[var(--accent-blue)] transition-colors duration-300 group-hover/item:bg-[var(--accent-blue)] group-hover/item:shadow-[0_0_15px_var(--accent-blue)]" />
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-2">
-                  <h4 className="text-xl md:text-2xl font-bold text-gray-200 transition-colors duration-300 group-hover/item:text-white">Diploma in Engineering</h4>
+                  <h4 className="text-lg md:text-2xl font-bold text-gray-200 transition-colors duration-300 group-hover/item:text-white">Diploma in Engineering</h4>
                   <span className="inline-flex w-max items-center px-3 py-1 rounded-full bg-white/5 border border-white/20 text-gray-300 text-xs font-mono font-bold tracking-widest">74.3%</span>
                 </div>
                 <p className="text-gray-400 font-mono text-sm leading-relaxed">Government Polytechnic, Anantapur, Andhra Pradesh</p>
               </div>
+
               <div className="relative pl-10 transition-all duration-300 hover:translate-x-2 cursor-default group/item">
                 <div className="absolute left-0 top-1 w-4 h-4 rounded-full bg-black border-2 border-gray-600 transition-colors duration-300 group-hover/item:border-gray-400 group-hover/item:bg-gray-400" />
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-2">
-                  <h4 className="text-xl md:text-2xl font-bold text-gray-300 transition-colors duration-300 group-hover/item:text-white">10th Class (SSC)</h4>
+                  <h4 className="text-lg md:text-2xl font-bold text-gray-300 transition-colors duration-300 group-hover/item:text-white">10th Class (SSC)</h4>
                   <span className="inline-flex w-max items-center px-3 py-1 rounded-full bg-white/5 border border-white/20 text-gray-400 text-xs font-mono font-bold tracking-widest">COMPLETED</span>
                 </div>
                 <p className="text-gray-500 font-mono text-sm leading-relaxed">Andhra Pradesh Residential School of Excellence</p>
