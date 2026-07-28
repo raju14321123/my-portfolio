@@ -9,9 +9,9 @@ function FloatingNav() {
   return (
     <div className="fixed top-6 right-6 z-40">
       <div className="bg-black/20 backdrop-blur-2xl border border-white/10 p-4 rounded-3xl shadow-2xl flex flex-col items-center gap-3">
-        <div className="flex flex-col md:flex-row gap-3">
-          <a href="/resume.pdf" target="_blank" className="px-6 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-xs uppercase tracking-widest text-center">Resume</a>
-          <a href="mailto:gangadharpandla4477@gmail.com" className="px-6 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-xs uppercase tracking-widest text-center">Contact</a>
+        <div className="flex gap-3">
+          <a href="/resume.pdf" target="_blank" className="px-6 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-xs uppercase tracking-widest">Resume</a>
+          <a href="mailto:gangadharpandla4477@gmail.com" className="px-6 py-2 rounded-full border border-white/20 bg-white/5 hover:bg-white/20 transition-all font-bold text-white text-xs uppercase tracking-widest">Contact</a>
         </div>
         <a href="/resume.pdf" download="Gangadhar_Resume.pdf" className="text-[10px] text-gray-400 hover:text-white transition-colors underline underline-offset-4 uppercase tracking-widest">Download Resume</a>
       </div>
@@ -45,11 +45,9 @@ function AIChatBot() {
 
   const getBotResponse = (query: string) => {
     const q = query.toLowerCase();
-    
     for (const key in portfolioKnowledge) {
       if (q.includes(key)) return portfolioKnowledge[key];
     }
-    
     return `That's an interesting question about "${query}". As Gangadhar's assistant, I'm specialized in his portfolio, but I can tell you that every detail he works on is built with precision and passion. Would you like to know more about his specific technical skills or his achievements?`;
   };
 
@@ -59,7 +57,6 @@ function AIChatBot() {
     setMessages(prev => [...prev, { role: 'user', text: userText }]);
     setInput("");
     setIsTyping(true);
-    
     setTimeout(() => {
       setIsTyping(false);
       setMessages(prev => [...prev, { role: 'bot', text: getBotResponse(userText) }]);
@@ -202,20 +199,20 @@ function BusCinematic() {
       <div className="relative w-full md:w-[45%] h-full flex flex-col justify-center pointer-events-none md:-ml-[10%] mt-8 md:mt-0">
         <div className="absolute inset-y-0 left-[-10%] right-[-10%] bg-[radial-gradient(ellipse_at_left,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.7)_50%,transparent_80%)] pointer-events-none -z-10" />
         <div className="relative z-10 w-full pl-6 md:pl-16">
-          <div className="absolute w-full top-0 md:top-1/2 md:-translate-y-1/2 text-left" style={getTextStyle(0.05, 0.30)}>
-            <h2 className="text-xs md:text-sm tracking-[0.3em] text-[var(--accent-cyan)] font-bold uppercase mb-2 md:mb-4">DRIVER INITIALIZATION</h2>
-            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-4 md:mb-6 tracking-tighter">Live Telemetry<br/>Uplink</h3>
-            <p className="text-sm md:text-lg text-white font-bold max-w-sm">Driver initiates real-time location sharing, establishing a secure, high-fidelity data stream between the bus and our cloud infrastructure.</p>
+          <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.05, 0.30)}>
+            <h2 className="text-sm tracking-[0.3em] text-[var(--accent-cyan)] font-bold uppercase mb-4">DRIVER INITIALIZATION</h2>
+            <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Live Telemetry<br/>Uplink</h3>
+            <p className="text-lg text-white font-bold max-w-sm">Driver initiates real-time location sharing, establishing a secure, high-fidelity data stream between the bus and our cloud infrastructure.</p>
           </div>
-          <div className="absolute w-full top-0 md:top-1/2 md:-translate-y-1/2 text-left" style={getTextStyle(0.35, 0.65)}>
-            <h2 className="text-xs md:text-sm tracking-[0.3em] text-[var(--accent-blue)] font-bold uppercase mb-2 md:mb-4">USER PORTAL</h2>
-            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-4 md:mb-6 tracking-tighter">Student Access<br/>Portal</h3>
-            <p className="text-sm md:text-lg text-white font-bold max-w-sm">Students log in to a unified dashboard, featuring real-time route visualization powered by OpenStreetMap and Node.js backend services.</p>
+          <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.35, 0.65)}>
+            <h2 className="text-sm tracking-[0.3em] text-[var(--accent-blue)] font-bold uppercase mb-4">USER PORTAL</h2>
+            <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Student Access<br/>Portal</h3>
+            <p className="text-lg text-white font-bold max-w-sm">Students log in to a unified dashboard, featuring real-time route visualization powered by OpenStreetMap and Node.js backend services.</p>
           </div>
-          <div className="absolute w-full top-0 md:top-1/2 md:-translate-y-1/2 text-left" style={getTextStyle(0.70, 0.95)}>
-            <h2 className="text-xs md:text-sm tracking-[0.3em] text-[var(--accent-cyan)] font-bold uppercase mb-2 md:mb-4">SYNC COMPLETE</h2>
-            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-4 md:mb-6 tracking-tighter">Precision<br/>Sync</h3>
-            <p className="text-sm md:text-lg text-white font-bold max-w-sm">Digital tracking aligns perfectly with physical reality, ensuring students arrive at stops in precise synchronization with bus arrivals.</p>
+          <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.70, 0.95)}>
+            <h2 className="text-sm tracking-[0.3em] text-[var(--accent-cyan)] font-bold uppercase mb-4">SYNC COMPLETE</h2>
+            <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Precision<br/>Sync</h3>
+            <p className="text-lg text-white font-bold max-w-sm">Digital tracking aligns perfectly with physical reality, ensuring students arrive at stops in precise synchronization with bus arrivals.</p>
           </div>
         </div>
       </div>
@@ -260,20 +257,20 @@ function MouseCinematic() {
         <div className="relative w-full md:w-[45%] h-full flex flex-col justify-center pointer-events-none md:-ml-[10%] mt-8 md:mt-0">
           <div className="absolute inset-y-0 left-[-10%] right-[-10%] bg-[radial-gradient(ellipse_at_left,rgba(0,0,0,0.95)_0%,rgba(0,0,0,0.7)_50%,transparent_80%)] pointer-events-none -z-10" />
           <div className="relative z-10 w-full pl-6 md:pl-16">
-            <div className="absolute w-full top-0 md:top-1/2 md:-translate-y-1/2 text-left" style={getTextStyle(0.05, 0.25)}>
-              <h2 className="text-xs md:text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-2 md:mb-4">SPATIAL TARGETING</h2>
-              <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-4 md:mb-6 tracking-tighter">Presentation<br/>Mode</h3>
-              <p className="text-sm md:text-xl text-white font-bold max-w-sm">Seamless toggle mode designed for high-precision, lag-free optical laser pointing in academic seminars.</p>
+            <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.05, 0.25)}>
+              <h2 className="text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-4">SPATIAL TARGETING</h2>
+              <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Presentation<br/>Mode</h3>
+              <p className="text-xl text-white font-bold max-w-sm">Seamless toggle mode designed for high-precision, lag-free optical laser pointing in academic seminars.</p>
             </div>
-            <div className="absolute w-full top-0 md:top-1/2 md:-translate-y-1/2 text-left" style={getTextStyle(0.30, 0.50)}>
-              <h2 className="text-xs md:text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-2 md:mb-4">STATE SWITCH</h2>
-              <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-4 md:mb-6 tracking-tighter">Tactile<br/>Activation</h3>
-              <p className="text-sm md:text-xl text-white font-bold max-w-sm">A hardware-level toggle instantly transforms the pointing laser into a full 3D air-mouse interface.</p>
+            <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.30, 0.50)}>
+              <h2 className="text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-4">STATE SWITCH</h2>
+              <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">Tactile<br/>Activation</h3>
+              <p className="text-xl text-white font-bold max-w-sm">A hardware-level toggle instantly transforms the pointing laser into a full 3D air-mouse interface.</p>
             </div>
-            <div className="absolute w-full top-0 md:top-1/2 md:-translate-y-1/2 text-left" style={getTextStyle(0.55, 0.75)}>
-              <h2 className="text-xs md:text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-2 md:mb-4">ZERO-SURFACE INPUT</h2>
-              <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-4 md:mb-6 tracking-tighter">True Air<br/>Mouse</h3>
-              <p className="text-sm md:text-xl text-white font-bold max-w-sm">Utilizes IMU sensor fusion to translate spatial hand gestures into zero-latency digital navigation, no surface required.</p>
+            <div className="absolute w-full top-1/2 -translate-y-1/2 text-left" style={getTextStyle(0.55, 0.75)}>
+              <h2 className="text-sm tracking-[0.3em] text-red-500 font-bold uppercase mb-4">ZERO-SURFACE INPUT</h2>
+              <h3 className="text-5xl font-extrabold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent mb-6 tracking-tighter">True Air<br/>Mouse</h3>
+              <p className="text-xl text-white font-bold max-w-sm">Utilizes IMU sensor fusion to translate spatial hand gestures into zero-latency digital navigation, no surface required.</p>
             </div>
           </div>
         </div>
@@ -360,7 +357,7 @@ export default function Home() {
 
       <section id="projects-section" className="w-full flex flex-col items-center justify-center relative z-10 px-4 pt-12 pb-12">
         <h2 className="text-gray-500 text-xs tracking-[0.5em] uppercase font-bold mb-4">PROJECT</h2>
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex gap-6">
           <button onClick={() => setActiveProject('bus')} className="px-8 py-4 rounded-full border border-white/20 bg-black/50 text-white font-bold backdrop-blur-md hover:border-cyan-500 transition-colors">Bus Tracking</button>
           <button onClick={() => setActiveProject('mouse')} className="px-8 py-4 rounded-full border border-white/20 bg-black/50 text-white font-bold backdrop-blur-md hover:border-red-500 transition-colors">Future Project Laser Mouse</button>
         </div>
@@ -369,6 +366,7 @@ export default function Home() {
       {activeProject === 'bus' && <BusCinematic />}
       {activeProject === 'mouse' && <MouseCinematic />}
       
+      {/* ACHIEVEMENTS SECTION */}
       <section id="achievements-section" className="w-full py-20 relative z-10">
         <h2 className="text-center text-white/50 text-xs tracking-[0.5em] uppercase font-bold mb-12">Achievements</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto px-6">
